@@ -1,14 +1,10 @@
+import { UserPayload } from './../../interfaces/user.interface';
 import { NotAuthorizedError } from './../errors/not-authorized-error';
 import { ResMsg } from './../../util/index';
 import { ObjectId } from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/user';
-
-interface UserPayload {
-  _id: string;
-  email: string;
-}
 
 declare global {
   namespace Express {
@@ -23,7 +19,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
   if (!token) throw new NotAuthorizedError('Authorization header not found - Access Restricted!');
   if (process.env.NODE_ENV === "test") return next();
-  let decodedToken: any;
+  let decodedToken: UserPayload|null;
 
   try {
     decodedToken = await jwt.verify(token, process.env.JWT_KEY!) as UserPayload;

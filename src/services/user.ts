@@ -1,26 +1,21 @@
+import { ObjectId } from 'mongoose';
+import { UserPayload, UserQueryPayload } from './../interfaces/user.interface';
 import { Password } from '../common/services/password';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
 import { UserToken } from '../models/user-token';
 
-interface UserPayload {
-  userName: string,
-  email: string,
-  password: string,
-  lastLoginTime: Date,
-}
-
-export const getAll = async (queryString: any) => {
+export const getAll = async (queryString: UserQueryPayload) => {
   try {
     let pageOptions = {
       page: queryString.page || 0,
       limit: (queryString.limit ? (queryString.limit > 100 ? 100 : queryString.limit) : 25)
     }
 
-    let query: any = {};
+    let query: UserQueryPayload;
 
-    if (queryString.name && queryString.name != '') query.name = queryString.name;
-    if (queryString.code && queryString.code != '') query.code = queryString.code;
+    if (queryString.userName && queryString.userName != '') query.userName = queryString.userName;
+    if (queryString.email && queryString.email != '') query.email = queryString.email;
 
     const usersCount = await User.countDocuments(query).exec();
 
@@ -53,7 +48,7 @@ export const getAll = async (queryString: any) => {
   }
 }
 
-export const createUser = async (payload: any) => {
+export const createUser = async (payload: UserPayload) => {
   try {
     const { userName, email, password } = payload;
 
@@ -85,7 +80,7 @@ export const createUser = async (payload: any) => {
   }
 }
 
-export const signInUser = async (payload: any) => {
+export const signInUser = async (payload: UserPayload ) => {
   try {
     const { email, password } = payload;
 

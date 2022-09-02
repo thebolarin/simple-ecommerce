@@ -2,7 +2,7 @@
 
 ## Description
 
-A simple ecommerce backend application that consist od user,product and category.
+A simple ecommerce backend application that consist of user,product and category.
 
 ## Dependencies
 

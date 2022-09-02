@@ -1,3 +1,4 @@
+import { ProductPayload, ProductQueryPayload, ProductUploadPayload } from './../interfaces/product.interface';
 import { ObjectId } from 'mongoose';
 import { S3 } from "aws-sdk"
 import { checkKey } from './../config/s3';
@@ -6,28 +7,16 @@ import redis from '../config/redis-client';
 import redisKeys from '../config/redis-key-gen';
 const client = redis.getClient();
 
-interface ProductPayload {
-    name: string,
-    price: number,
-    image: string,
-    minimumQuantity: number,
-    discountRate: number,
-    category: ObjectId
-}
 
-interface ProductUploadPayload {
-    fileName: string,
-    fileType: string
-}
 
-export const getAll = async (queryString: any) => {
+export const getAll = async (queryString: ProductQueryPayload) => {
     try {
         let pageOptions = {
             page: queryString.page || 0,
             limit: (queryString.limit ? (queryString.limit > 100 ? 100 : queryString.limit) : 25)
         }
 
-        let query: any = {};
+        let query: ProductQueryPayload;
 
         if (queryString.name && queryString.name != '') query.name = queryString.name;
         if (queryString.code && queryString.code != '') query.code = queryString.code;

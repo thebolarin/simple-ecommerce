@@ -1,17 +1,15 @@
+import { ObjectId } from 'mongoose';
+import { CategoryPayload, CategoryQueryPayload } from './../interfaces/category.interface';
 import { Category } from '../models/category';
 
-interface CategoryPayload {
-    name: string;
-}
-
-export const getAll = async (queryString: any) => {
+export const getAll = async (queryString: CategoryQueryPayload) => {
     try {
         let pageOptions = {
             page: queryString.page || 0,
             limit: (queryString.limit ? (queryString.limit > 100 ? 100 : queryString.limit) : 25)
         }
 
-        let query: any = {};
+        let query: CategoryQueryPayload;
 
         if (queryString.name && queryString.name != '') query.name = queryString.name;
         if (queryString.code && queryString.code != '') query.code = queryString.code;

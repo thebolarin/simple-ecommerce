@@ -100,19 +100,10 @@ productSchema.post('remove', function() {
 const deleteProductFromCache = async () => {
     const keyId = redisKeys.getKey(`Products_*`);
     console.log(`Deleting products from cache....`);
-    
-    // client.keys(keyId, function (rows: any[]) {
-    //     rows.forEach((row:any) => {
-    //         client.unlink(row);
-    //     });
-    // })
-
     let rows = await client.keys(keyId);
-
     rows.forEach(row => client.unlink(row));
 };
     
-
 productSchema.statics.build = (attrs: ProductAttrs) => {
     return new Product(attrs);
 };
