@@ -63,6 +63,7 @@ const productSchema = new mongoose.Schema(
     {
         timestamps: true,
         toJSON: {
+            virtuals: true,
             transform(ret) {
                 ret.id = ret._id;
                 delete ret._id;
