@@ -78,7 +78,7 @@ productSchema.plugin(updateIfCurrentPlugin);
 productSchema.virtual('discountPrice').get(function () {
     let discountRatePrice = this.discountRate / 100 * this.price
     let discountPrice = this.price - discountRatePrice
-    return discountPrice;
+    return Number(discountPrice.toFixed(2));
 });
 
 let autoPopulated = function (next: NextFunction) {
